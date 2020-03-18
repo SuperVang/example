@@ -1,0 +1,12 @@
+
+add_subdirectory(eigen)
+add_subdirectory(gdal)
+add_subdirectory(gtest)
+add_subdirectory(mongodb)
+add_subdirectory(protobuf)
+add_subdirectory(sqlite3)
+add_subdirectory(pybind)
+add_subdirectory(flatbuf)
+add_subdirectory(qt)
+add_subdirectory(ceres)
+add_subdirectory(boost)

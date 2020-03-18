@@ -1,0 +1,50 @@
+syntax="proto3";
+package books;
+
+enum Corpus{
+    UNIVERSAL=0;
+    WEB=1;
+    LOCAL=2;
+}
+
+message SearchRequest{
+     string query=1;
+     int32 page_number=2;
+     int32 result_per_page=3;
+     Corpus corpus=4 ;
+    repeated int32 ips=5;
+}
+
+message Pt{
+    int64 x=1;
+    int64 y=2;
+}
+
+message ResponseMsg{
+    string msg=1;
+    int32 msg_line=2;
+    repeated Pt pts=3;
+}
+
+message ObjA{
+    double x=2;
+    double y=3;
+}
+
+message ObjB{
+    int32 lon=1;
+    int32 lat=2;
+}
+
+message Obj{
+    int32 id=1;
+    int32 type=2;
+    oneof impl{
+        ObjA a=3;
+        ObjB b=4;
+    }
+}
+
+message ObjList{
+    repeated Obj objs=1;
+}

@@ -1,0 +1,32 @@
+
+namespace books;
+
+enum Color:byte{Red=0,Green,Blue}
+
+union Equipment { Weapon,Armor}
+
+struct Vec3{
+    x:float;
+    y:float;
+    z:float;
+}
+
+table Person{
+    pos:Vec3;
+    name:string;
+    age:int;
+    eye:Color;
+    equipped:Equipment;
+}
+
+table Weapon{
+    name:string;
+    damage:short;
+}
+
+table Armor{
+    name:string;
+    defence:short;
+}
+
+root_type Person;

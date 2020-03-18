@@ -1,0 +1,7 @@
+add_subdirectory(memory_pool)
+add_subdirectory(schedule)
+add_subdirectory(geometry)
+add_subdirectory(calibration)
+add_subdirectory(mvg)
+add_subdirectory(ml)
+add_subdirectory(db)

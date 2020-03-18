@@ -1,0 +1,10 @@
+
+data/
+build*/
+cmake-build*/
+.vscode/
+.idea/
+_build/
+__pycache__/
+bin/
+lib/

@@ -1,0 +1,13 @@
+*** Starting uWSGI 2.0.18 (64bit) on [Wed Jan 15 10:25:58 2020] ***
+compiled with version: 5.4.0 20160609 on 15 January 2020 02:20:21
+os: Linux-4.15.0-74-generic #83~16.04.1-Ubuntu SMP Wed Dec 18 04:56:23 UTC 2019
+nodename: books-ThinkPad-T480
+machine: x86_64
+clock source: unix
+pcre jit disabled
+detected number of CPU cores: 8
+current working directory: /home/books/books_project/WhuBooksSite
+writing pidfile to uwsgi.pid
+detected binary path: /home/books/.local/bin/uwsgi
+chdir() to /usr/DjangoProject/MyProject/
+chdir(): No such file or directory [core/uwsgi.c line 2623]

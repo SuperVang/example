@@ -1,0 +1,14 @@
+syntax="proto3";
+package books;
+
+
+
+message Person{
+    string name=1;
+    int32 age=2;
+    int32 sex=3;
+    oneof attr{
+        int32 hgt=4;
+        int32 wgt=5;
+    }
+}
