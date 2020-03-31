@@ -1,0 +1,21 @@
+syntax="proto3";
+
+package books;
+
+option cc_generic_services = false;
+
+message VideoRequest {
+    string text = 1;
+    int32 times = 2;
+}
+
+message VideoResponse {
+    int32 num=1;
+    int32 rows=2;
+    int32 cols=3;
+    repeated int32 data=4;
+}
+
+service VideoService {
+    rpc Foo(VideoRequest) returns(stream VideoResponse);
+}
