@@ -1,0 +1,29 @@
+// Copyright 2018 AAI GmbH
+//
+// Controller world service
+// @create time Feb 25 2018 bu yuanbo.xiang
+
+syntax = "proto3";
+
+option objc_class_prefix = "AAI";
+
+package automotive_ai.world;
+
+import "google/protobuf/empty.proto";
+import "automotive_ai/common/new_traffic_vehicle.proto";
+
+// The traffic service definition.
+service NewTrafficService {
+
+    // Sends road user vehicles
+    rpc ReportTraffic (automotive_ai.common.NewTrafficVehicles) returns (google.protobuf.Empty) {
+    };
+
+    // Gets all traffic from traffic service
+    rpc GetTraffic (google.protobuf.Empty) returns (automotive_ai.common.NewTrafficVehicles) {
+    };
+
+    // Informing that the current stepNext call finished.
+    rpc StepNextEnd(google.protobuf.Empty) returns (google.protobuf.Empty) {
+    };
+}

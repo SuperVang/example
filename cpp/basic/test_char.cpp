@@ -3,6 +3,10 @@
 
 #include <gtest/gtest.h>
 
+/**
+ * @brief Construct a new TEST object
+ * 
+ */
 TEST(BASIC_CHAR,chinese_string)
 {
     std::string str="但是我拒绝";

@@ -1,0 +1,65 @@
+syntax = "proto3";
+
+
+package automotive_ai.heart;
+
+message ReportReq {
+    string content = 1;
+}
+
+message ReportRes {
+    string content = 1;
+}
+
+message InitReq {
+    string config = 1;
+}
+
+message InitRes {
+    map<string, string> stubs = 1;
+    map<string, string> services = 2;
+}
+
+message ServeReq {
+    map<string, string> mapping = 1;
+}
+
+message ServeRes {
+}
+
+message ConnectReq {
+    map<string, string> mapping = 1;
+}
+
+message ConnectRes {
+}
+
+message StartReq {
+}
+
+message StartRes {
+}
+
+message StepReq {
+    uint64 stamp = 1;
+}
+
+message StepRes {
+    bool enough_please_stop = 1;
+}
+
+message StopReq {
+}
+
+message StopRes {
+}
+
+service Heart {
+    rpc Report(ReportReq) returns (ReportRes) {}
+    rpc Init(InitReq) returns (InitRes) {}
+    rpc Serve(ServeReq) returns (ServeRes) {}
+    rpc Connect(ConnectReq) returns (ConnectRes) {}
+    rpc Start(StartReq) returns (StartRes) {}
+    rpc Step(StepReq) returns (StepRes) {}
+    rpc Stop(StopReq) returns (StopRes) {}
+}

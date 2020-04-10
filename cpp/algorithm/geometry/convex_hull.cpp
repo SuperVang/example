@@ -1,3 +1,14 @@
+/**
+ * @file convex_hull.cpp
+ * @author your name (you@domain.com)
+ * @brief 
+ * @version 0.1
+ * @date 2020-04-07
+ * 
+ * @copyright Copyright (c) 2020
+ * 
+ */
+
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -7,8 +18,17 @@
 
 #include <opencv2/opencv.hpp>
 
+/**
+ * @brief 
+ * 
+ */
 typedef std::vector<cv::Point2d> PtVec;
 
+/**
+ * @brief 
+ * 
+ * @return PtVec 
+ */
 PtVec initRandomPts()
 {
     static std::default_random_engine e;

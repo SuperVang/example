@@ -11,6 +11,10 @@
 
 #include "ml_def.h"
 
+/**
+ * @brief 
+ * 
+ */
 class LinearRegression
 {
 	EIGEN_MAKE_ALIGNED_OPERATOR_NEW
