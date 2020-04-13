@@ -1,5 +1,5 @@
 
-find_package(Ceres REQUIRED)
+find_package(Ceres)
 
 if(CERES_FOUND)
     include_directories("/usr/include/eigen3/")

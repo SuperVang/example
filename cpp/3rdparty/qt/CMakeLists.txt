@@ -1,5 +1,5 @@
 
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
+find_package(Qt5 COMPONENTS Widgets)
 if(Qt5_FOUND)
     message(STATUS "Qt5 Found")
 
