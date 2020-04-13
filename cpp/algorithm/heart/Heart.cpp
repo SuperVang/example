@@ -1,4 +1,4 @@
-#include <aai_heart_src/Heart.h>
+#include "Heart.h"
 
 namespace aai_heart { namespace detail {
 
@@ -55,56 +55,6 @@ grpc::StatusCode StatusError::getCode() const
 	return m_code;
 }
 
-#if 0
-inline std::string print_message(const ::google::protobuf::Message& message)
-{
-	::google::protobuf::util::JsonPrintOptions json_options;
-	json_options.add_whitespace = true;
-	json_options.always_print_primitive_fields = true;
-	json_options.always_print_enums_as_ints = true;
-	json_options.preserve_proto_field_names = false;
-	std::string result;
-	::google::protobuf::util::MessageToJsonString(message, &result, json_options);
-	return result;
-}
-
-inline void print_call(
-	const ::google::protobuf::Message& request,
-	const ::google::protobuf::Message& response,
-	const char* func)
-{
-	std::cout << ">>>>>> ---------------------------- call ----------------------------" << std::endl;
-	std::cout << func << std::endl;
-	std::cout << print_message(request) << std::endl;
-	std::cout << print_message(response) << std::endl;
-	std::cout << "<<<<<< ---------------------------- call ----------------------------" << std::endl;
-}
-
-inline void print_error(
-	const ::google::protobuf::Message& request,
-	const std::string& message,
-	const char* func)
-{
-	std::cout << ">>>>>> ---------------------------- error ----------------------------" << std::endl;
-	std::cout << func << std::endl;
-	std::cout << print_message(request) << std::endl;
-	std::cout << message << std::endl;
-	std::cout << "<<<<<< ---------------------------- exception ----------------------------" << std::endl;
-}
-
-inline void print_exception(
-	const ::google::protobuf::Message& request,
-	const std::exception_ptr& exception,
-	const char* func)
-{
-	std::cout << ">>>>>> ---------------------------- exception ----------------------------" << std::endl;
-	std::cout << func << std::endl;
-	std::cout << print_message(request) << std::endl;
-	std::cout << printException(std::current_exception()) << std::endl;
-	std::cout << "<<<<<< ---------------------------- exception ----------------------------" << std::endl;
-}
-#endif
-
 class NoReusePortOption : public grpc::ServerBuilderOption
 {
 public:
@@ -141,8 +91,7 @@ inline void complete(grpc::CompletionQueue& cq)
 }
 
 
-Heart::Heart(IEvents& events)
-	: mEvents(events)
+Heart::Heart(IEvents& events) : mEvents(events)
 {
 
 }

@@ -9,6 +9,8 @@
 #include <future>
 #include <boost/optional.hpp>
 
+
+
 #include <automotive_ai/world/new_traffic_service.grpc.pb.h>
 
 
@@ -18,6 +20,10 @@ namespace aai_heart {
 // automotive_ai.world.NewTrafficService (automotive_ai/world/new_traffic_service.proto)
 //
 
+/**
+ * @brief basic interface of new traffic service, is an asynchronous version of grpc service 
+ * 
+ */
 struct IServiceNewTraffic
 {
     virtual ~IServiceNewTraffic() = default;
@@ -35,8 +41,18 @@ struct IServiceNewTraffic
         std::promise<::google::protobuf::Empty> promise) = 0;
 };
 
+/**
+ * @brief convert grpc new traffic service to IServiceNewTraffic
+ * 
+ * @param proxy 
+ * @return std::unique_ptr<IServiceNewTraffic> 
+ */
 std::unique_ptr<IServiceNewTraffic> makeServiceNewTrafficFromGrpc(std::shared_ptr<::automotive_ai::world::NewTrafficService::Service> proxy);
 
+/**
+ * @brief basic interface of new traffic client, is an asynchronous version
+ * 
+ */
 struct IStubNewTraffic
 {
     virtual ~IStubNewTraffic() = default;
@@ -72,18 +88,42 @@ struct IStubNewTraffic
             boost::optional<std::chrono::system_clock::time_point> deadline = boost::none) = 0;
 };
 
+/**
+ * @brief convert IStubNewTraffic to grpc new traffic client
+ * 
+ * @param proxy 
+ * @return std::unique_ptr<::automotive_ai::world::NewTrafficService::StubInterface> 
+ */
 std::unique_ptr<::automotive_ai::world::NewTrafficService::StubInterface> makeGrpcFromStubNewTraffic(std::shared_ptr<IStubNewTraffic> proxy);
 
 //
 // Registry
 //
 
+/**
+ * @brief basic registry interface class, which define the public interface of register new traffic service and client
+ * 
+ */
 struct IRegistry
 {
     virtual ~IRegistry() = default;
 
     // NewTraffic: automotive_ai.world.NewTrafficService (automotive_ai/world/new_traffic_service.proto)
+
+    /**
+     * @brief register a new GrpcFromServiceNewTraffic with name which is converted from service
+     * 
+     * @param name 
+     * @param service 
+     */
     virtual void registerServiceNewTraffic(const std::string& name, std::shared_ptr<IServiceNewTraffic> service) = 0;
+
+    /**
+     * @brief register a new ProxyStubNewTraffic with name into mStubsNewTraffic, or just return the ProxyStubNewTraffic with name
+     * 
+     * @param name 
+     * @return std::shared_ptr<IStubNewTraffic> 
+     */
     virtual std::shared_ptr<IStubNewTraffic> registerStubNewTraffic(const std::string& name) = 0;
 
 };

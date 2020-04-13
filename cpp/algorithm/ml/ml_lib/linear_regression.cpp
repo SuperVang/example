@@ -204,5 +204,5 @@ double LinearRegression::calCostWithRegularization(const SampleVec &pos, const S
     {
         cost += std::pow(-neg[i].transpose() * m_theta, 2);
     }
-    return cost / (2.0 * (pos.size() + neg.size()));
+    return cost / (2.0 * ((int)pos.size() + (int)neg.size()));
 }

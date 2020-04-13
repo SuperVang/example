@@ -3,14 +3,18 @@
 
 #pragma once
 
-#include <aai_heart/Heart.h>
+#include "IHeart.h"
 #include <boost/smart_ptr/atomic_shared_ptr.hpp>
-#include <grpcpp/grpcpp.h>
+#include <grpc++/grpc++.h>
 
 
 namespace aai_heart { namespace detail {
 
-
+/**
+ * @brief inherint IServiceNewTraffic but just implement the exception of promise
+ * do not implement the real service process
+ * 
+ */
 class DummyServiceNewTraffic : public IServiceNewTraffic
 {
 public:
@@ -42,6 +46,11 @@ public:
     ) override;
 };
 
+/**
+ * @brief inherit grpc service but just extend the origin interface with another formula
+ * do not implement the real service process
+ * 
+ */
 class GrpcDummyServiceNewTraffic : public ::automotive_ai::world::NewTrafficService::Service
 {
 public:
@@ -76,6 +85,12 @@ public:
     ) override;
 };
 
+/**
+ * @brief inherit grpc service and extend origin interface with deadline
+ * it maintain an IServiceNewTraffic, and call it's interface in respective interface
+ * need to notice that even the origin interface will use deadline from server context
+ * 
+ */
 class GrpcFromServiceNewTraffic : public ::automotive_ai::world::NewTrafficService::Service
 {
 public:
@@ -120,6 +135,12 @@ private:
     std::shared_ptr<IServiceNewTraffic> mProxy;
 };
 
+/**
+ * @brief inherit grpc service and extend origin interface with deadline
+ * it maintain an IStubNewTraffic, and call it's interface in respective interface
+ * need to notice that even the origin interface will use deadline from server context
+ * 
+ */
 class GrpcProxyServiceNewTraffic : public ::automotive_ai::world::NewTrafficService::Service
 {
 public:
@@ -164,6 +185,11 @@ private:
     std::shared_ptr<IStubNewTraffic> mProxy;
 };
 
+/**
+ * @brief inherit the IServiceNewTraffic and implement the interface via a grpc service 
+ * call the interface inside proxy when run the respective service
+ * wrap the origin synchronous interface to asynchronous one by put the result into promise
+ */
 class ServiceNewTrafficFromGrpc : public IServiceNewTraffic
 {
 public:
@@ -190,6 +216,11 @@ private:
     std::shared_ptr<::automotive_ai::world::NewTrafficService::Service> mProxy;
 };
 
+/**
+ * @brief inherit IServiceNewTraffic and implement the interface via grpc stub interface
+ * call the interface inside proxy when run the respective service
+ * wrap the origin synchronous interface to asynchronous one by put the result into promise
+ */
 class ServiceNewTrafficFromGrpcStub : public IServiceNewTraffic
 {
 public:
@@ -216,6 +247,10 @@ private:
     boost::atomic_shared_ptr<::automotive_ai::world::NewTrafficService::StubInterface> mProxy;
 };
 
+/**
+ * @brief inherit IStubNewTraffic with empty implementation
+ * 
+ */
 class DummyStubNewTraffic : public IStubNewTraffic
 {
 public:
@@ -256,6 +291,10 @@ public:
     ) override;
 };
 
+/**
+ * @brief inherit grpc stub interface with empty implementation
+ * 
+ */
 class GrpcDummyStubNewTraffic : public ::automotive_ai::world::NewTrafficService::StubInterface
 {
 public:
@@ -283,44 +322,50 @@ private:
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::automotive_ai::common::NewTrafficVehicles>*
         PrepareAsyncGetTrafficRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         AsyncReportTrafficRaw(
         grpc::ClientContext* context,
         const ::automotive_ai::common::NewTrafficVehicles& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         PrepareAsyncReportTrafficRaw(
         grpc::ClientContext* context,
         const ::automotive_ai::common::NewTrafficVehicles& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         AsyncStepNextEndRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         PrepareAsyncStepNextEndRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 };
 
+/**
+ * @brief inherit IStubNewTraffic and use a grpc stub as proxy
+ * the synchronous interface will be same as proxy
+ * the asynchronous interface will call the asynchronous interface of stub
+ * 
+ */
 class GrpcProxyStubNewTraffic : public IStubNewTraffic
 {
 public:
@@ -367,6 +412,10 @@ private:
     std::unique_ptr<::automotive_ai::world::NewTrafficService::Stub> mProxy;
 };
 
+/**
+ * @brief inherit the grpc stub interface and use IStubNewTraffic as proxy
+ * 
+ */
 class GrpcFromStubNewTraffic : public ::automotive_ai::world::NewTrafficService::StubInterface
 {
 public:
@@ -401,44 +450,48 @@ private:
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::automotive_ai::common::NewTrafficVehicles>*
         PrepareAsyncGetTrafficRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         AsyncReportTrafficRaw(
         grpc::ClientContext* context,
         const ::automotive_ai::common::NewTrafficVehicles& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         PrepareAsyncReportTrafficRaw(
         grpc::ClientContext* context,
         const ::automotive_ai::common::NewTrafficVehicles& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         AsyncStepNextEndRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 
     virtual grpc::ClientAsyncResponseReaderInterface<::google::protobuf::Empty>*
         PrepareAsyncStepNextEndRaw(
         grpc::ClientContext* context,
         const ::google::protobuf::Empty& request,
         grpc::CompletionQueue* cq
-    ) override;
+    );
 };
 
+/**
+ * @brief inherit IStubNewTraffic and use IStubNewTraffic as proxy
+ *  
+ */
 class ProxyStubNewTraffic : public IStubNewTraffic
 {
 public:
@@ -498,14 +551,40 @@ public:
 
     #pragma region Register
 
+    /**
+     * @brief register a new ProxyStubNewTraffic with name into mStubsNewTraffic, or just return the ProxyStubNewTraffic with name
+     * 
+     * @param name 
+     * @return std::shared_ptr<IStubNewTraffic> 
+     */
     virtual std::shared_ptr<IStubNewTraffic> registerStubNewTraffic(const Name& name) final;
+
+    /**
+     * @brief register a new GrpcFromServiceNewTraffic with name which is converted from service
+     * 
+     * @param name 
+     * @param service 
+     */
     virtual void registerServiceNewTraffic(const Name& name, std::shared_ptr<IServiceNewTraffic> service) final;
 
     #pragma endregion
 
-    std::map<Addr, grpc::ServerBuilder> applyServiceMapping(
-        const ::google::protobuf::Map<std::string, std::string>& mapping);
+    /**
+     * @brief use mServicesNewTraffic initilaize a <Addr, Grpc Server Builder> map
+     * find same key from mServicesNewTraffic and mapping, register mServicesNewTraffic[key] to result[mapping[key]]
+     * @param mapping 
+     * @return std::map<Addr, grpc::ServerBuilder> 
+     */
+    std::map<Addr, grpc::ServerBuilder> applyServiceMapping(const ::google::protobuf::Map<std::string, std::string>& mapping);
 
+    /**
+     * @brief use cq and channels to initialize the proxy of mStubsNewTraffic whioh has same key with mapping
+     * each proxy is a GrpcProxyStubNewTraffic which take cq and channels[mapping[key]]
+     *  
+     * @param cq 
+     * @param mapping 
+     * @param channels 
+     */
     void applyStubMapping(
         grpc::CompletionQueue& cq,
         const ::google::protobuf::Map<std::string, std::string>& mapping,

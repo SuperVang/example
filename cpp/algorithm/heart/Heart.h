@@ -1,15 +1,16 @@
 #pragma once
 
-#include <aai_heart_src/Registry.h>
+#include "Registry.h"
 
 #include <boost/make_shared.hpp>
 #include <boost/process.hpp>
-#include <grpcpp/grpcpp.h>
+#include <grpc++/grpc++.h>
 #include <google/protobuf/message.h>
 #include <google/protobuf/util/json_util.h>
 
 #include <automotive_ai/heart/heart_service.grpc.pb.h>
 
+#include <fmt/format.h>
 
 namespace aai_heart { namespace detail {
 
@@ -23,7 +24,7 @@ public:
 	explicit StatusError(const grpc::Status& status);
 
 	template<typename ... Args>
-	explicit StatusError(fmt::string_view format, Args&& ... args)
+	explicit StatusError(std::string format, Args&& ... args)
 		: StatusError(grpc::StatusCode::INTERNAL, fmt::format(format, std::forward<Args>(args)...))
 	{
 	}
@@ -78,6 +79,12 @@ std::future<Response> postStubAsyncMethod(
 	return res;
 }
 
+/**
+ * @brief inherit the IHeart and gprc heart service so to hide the detail of service.
+ * maintain registry to manager the other services loaded in heart service.
+ * maintain event as callback functions which be implemented by user
+ * 
+ */
 class Heart final : public IHeart, private ::automotive_ai::heart::Heart::Service
 {
 public:
