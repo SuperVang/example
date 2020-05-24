@@ -164,3 +164,10 @@ h(x) &=& \frac{1}{\int_{xt}^{x}dx} \\
 f(x) &=& \frac{1}{\int_{x}^{y}dx}g(x) \tag{2}
 \end{aligned}
 $$
+
+
+$$
+\begin{aligned}
+\frac{d^i}{du^i}C(u) & = \sum_{i=0}^{n} \frac{d^i}{du^i} N_{i,p}(u)P_i
+\end{aligned}
+$$

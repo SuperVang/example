@@ -43,6 +43,10 @@ TEST(PROTOBUF, repeated_msg)
         pt->set_x(i * 2);
         pt->set_y(i * 4);
     }
+    for(const books::Pt &pt : respMsg.pts())
+    {
+        std::cout<<pt.x()<<std::endl;
+    }
     respMsg.PrintDebugString();
     //    google::protobuf::ShutdownProtobufLibrary();
 }

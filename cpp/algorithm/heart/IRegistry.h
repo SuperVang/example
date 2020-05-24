@@ -42,7 +42,7 @@ struct IServiceNewTraffic
 };
 
 /**
- * @brief convert grpc new traffic service to IServiceNewTraffic
+ * @brief initialize ServiceNewTrafficFromGrpc with a grpc service as proxy, return IServiceNewTraffic interface because ServiceNewTrafficFromGrpc inherit from IServiceNewTraffic
  * 
  * @param proxy 
  * @return std::unique_ptr<IServiceNewTraffic> 
@@ -89,7 +89,7 @@ struct IStubNewTraffic
 };
 
 /**
- * @brief convert IStubNewTraffic to grpc new traffic client
+ * @brief initialize GrpcFromStubNewTraffic with IStubNewTraffic as proxy, return a grpc StubInterface pointer because GrpcFromStubNewTraffic inherit StubInterface
  * 
  * @param proxy 
  * @return std::unique_ptr<::automotive_ai::world::NewTrafficService::StubInterface> 
@@ -111,7 +111,7 @@ struct IRegistry
     // NewTraffic: automotive_ai.world.NewTrafficService (automotive_ai/world/new_traffic_service.proto)
 
     /**
-     * @brief register a new GrpcFromServiceNewTraffic with name which is converted from service
+     * @brief register a new GrpcFromServiceNewTraffic with name which use service as proxy
      * 
      * @param name 
      * @param service 

@@ -31,6 +31,10 @@ if (Boost_FOUND AND Protobuf_FOUND AND gRPC_FOUND)
 
   target_link_libraries(aai_heart gRPC::grpc++ gRPC::grpc protobuf::libprotobuf ${Boost_LIBRARIES} fmt::fmt)
 
+  add_executable(traffic_server new_traffic_server.cpp)
+
+  target_link_libraries(traffic_server aai_heart gRPC::grpc++ gRPC::grpc protobuf::libprotobuf ${Boost_LIBRARIES} fmt::fmt)
+
 endif()
 
 

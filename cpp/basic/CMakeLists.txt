@@ -7,4 +7,5 @@ add_executable(cpp_test
     test_static.cpp
     test_template.cpp
     test_char.cpp
-    test_number.cpp)
+    test_number.cpp
+    test_shared_ptr.cpp)

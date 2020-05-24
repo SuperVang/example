@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-#include <grpcpp/grpcpp.h>
+#include <grpc++/grpc++.h>
 
-#include "proto/foo.pb.h"
-#include "proto/foo.grpc.pb.h"
+#include "foo.pb.h"
+#include "foo.grpc.pb.h"
 
 int main()
 {
@@ -19,7 +19,7 @@ int main()
     req.set_times(2);
 
     FooResponse res;
-    
+
     grpc::ClientContext context;
 
     grpc::Status status=stub->Foo(&context,req,&res);

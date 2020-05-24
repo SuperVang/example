@@ -1,5 +1,5 @@
 
-find_package(pybind11)
+find_package(pybind11 QUIET)
 if(pybind11_FOUND)
     include_directories(${pybind11_DIRS})
     message(STATUS "PyBind Inc : ${pybind11_INCLUDE_DIRS}")

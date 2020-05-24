@@ -1,33 +1,35 @@
-cmake_minimum_required(VERSION 3.12)
 
-project(proto_rpc)
-
-set(CMAKE_CXX_STANDARD 11)
 
 find_package(Threads REQUIRED)
 
-set(protobuf_MODULE_COMPATIBLE TRUE)
-find_package(Protobuf CONFIG REQUIRED)
-message(STATUS "Using Protobuf : ${protobuf_VERSION}")
+find_package(Protobuf QUIET)
+if(${Protobuf_FOUND})
+    find_package(gRPC++)
+    if(${gRPC_FOUND})
 
-find_package(gRPC CONFIG REQUIRED)
-message(STATUS "Using gRPC : ${gRPC_VERSION}")
+        include(protoc)
+        protoc(DIRECTORIES "proto" OUTPUT_DIR PROTO_GEN_DIR GRPC_BIN ${_gRPC_CPP_PLUGIN_EXECUTABLE} INCLUDES "proto")
 
-#find_package(OpenCV REQUIRED)
+        include_directories(${PROTO_GEN_DIR})
+        file(GLOB_RECURSE proto_file "${PROTO_GEN_DIR}/*.cc")
+
+        add_executable(grpc_server server.cpp ${proto_file})
+        target_link_libraries(grpc_server gRPC::grpc++_unsecure protobuf::libprotobuf)
+
+        add_executable(grpc_client client.cpp ${proto_file})
+        target_link_libraries(grpc_client gRPC::grpc++_unsecure protobuf::libprotobuf)
+
+        #add_executable(stream_service stream_service.cpp ${proto_file})
+        #target_link_libraries(client gRPC::grpc++_unsecure protobuf::libprotobuf)
+
+        #add_executable(stream_client stream_client.cpp ${proto_file})
+        #target_link_libraries(client gRPC::grpc++_unsecure protobuf::libprotobuf)
+    endif()
+endif()
 
 
-file(GLOB proto_file "proto/*.cc" "proto/*.h")
-message(STATUS "proto file : ${proto_file}")
 
-add_executable(service service.cpp ${proto_file})
-target_link_libraries(service gRPC::grpc++_unsecure protobuf::libprotobuf)
 
-add_executable(client client.cpp ${proto_file})
-target_link_libraries(client gRPC::grpc++_unsecure protobuf::libprotobuf)
 
-#add_executable(stream_service stream_service.cpp ${proto_file})
-#target_link_libraries(client gRPC::grpc++_unsecure protobuf::libprotobuf)
 
-#add_executable(stream_client stream_client.cpp ${proto_file})
-#target_link_libraries(client gRPC::grpc++_unsecure protobuf::libprotobuf)
 

@@ -1,10 +1,10 @@
 #include <iostream>
 
-#include "proto/foo.pb.h"
-#include "proto/foo.grpc.pb.h"
-#include <grpcpp/grpcpp.h>
+#include "foo.pb.h"
+#include "foo.grpc.pb.h"
+#include <grpc++/grpc++.h>
 
-class EchoServiceImpl final : public EchoService::Service {
+class EchoServiceImpl final : public ::EchoService::Service {
    public:
     grpc::Status Foo(grpc::ServerContext *context,const FooRequest *request,
     FooResponse *reply)override{
@@ -20,7 +20,7 @@ class EchoServiceImpl final : public EchoService::Service {
 };
 
 int main(int argc, char *argv[]) {
-    std::string address="0.0.0.0:50051";
+    std::string address="127.0.0.1:50051";
     EchoServiceImpl impl;
     grpc::ServerBuilder builder;
     builder.AddListeningPort(address,grpc::InsecureServerCredentials());
