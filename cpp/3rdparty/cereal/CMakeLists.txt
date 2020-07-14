@@ -5,5 +5,5 @@ find_path(CEREAL_INCLUDE_DIR cereal/cereal.hpp
 
 if(IS_DIRECTORY ${CEREAL_INCLUDE_DIR})
     include_directories(${CEREAL_INCLUDE_DIR})
-    add_executable(test_cereal test_xml.cpp)
+    add_executable(cereal_test test_xml.cpp test_binary.cpp test_json.cpp)
 endif()

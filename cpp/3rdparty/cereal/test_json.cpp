@@ -1,26 +1,30 @@
+//
+// Created by books on 2020/6/8.
+//
 
-#include <cereal/archives/xml.hpp>
 #include <fstream>
+#include <iostream>
+
+#include <cereal/archives/json.hpp>
+#include <cereal/cereal.hpp>
+#include <cereal/types/memory.hpp>
+#include <cereal/types/vector.hpp>
 
 #include <gtest/gtest.h>
 
 #include "MyData.h"
 
-#include <cereal/types/memory.hpp>
-#include <cereal/types/vector.hpp>
-
-TEST(CEREAL_XML, read_write)
+TEST(CEREAL_JSON, read_write)
 {
-  std::string file = "data.xml";
+  std::string file = "data.json";
   {
     std::ofstream ofs(file, std::ios::trunc);
-    cereal::XMLOutputArchive archive(ofs);
+    cereal::JSONOutputArchive archive(ofs);
 
     MyDATA d1;
     d1.x = 3;
     d1.y = 1;
     d1.z = 9.9;
-    d1.name = "cai";
     int men = 5;
     double age = 2;
 
@@ -31,11 +35,11 @@ TEST(CEREAL_XML, read_write)
     std::ifstream ifs(file);
     if (!ifs.is_open()) return;
 
-    cereal::XMLInputArchive archive(ifs);
+    cereal::JSONInputArchive archive(ifs);
 
     MyDATA m1;
-    int someInt;
-    double d;
+    int someInt = 0;
+    double d = 0;
 
     archive(m1, someInt, d);  // NVPs not strictly necessary when loading
     // but could be used (even out of order)
@@ -48,13 +52,12 @@ TEST(CEREAL_XML, read_write)
   }
 }
 
-TEST(CEREAL_XML, read_write_recursive)
+TEST(CEREAL_JSON, read_write_recursive)
 {
-  std::string file = "recurse_data.xml";
-
-  std::ofstream ofs(file, std::ios::trunc);
+  std::string file = "recurse_data.json";
   {
-    cereal::XMLOutputArchive archive(ofs);
+    std::ofstream ofs(file, std::ios::trunc);
+    cereal::JSONOutputArchive archive(ofs);
 
     MyDATA d1;
     d1.x = 3;
@@ -70,19 +73,17 @@ TEST(CEREAL_XML, read_write_recursive)
 
     archive(CEREAL_NVP(t1), men, age);
   }
-  EXPECT_TRUE(ofs.is_open());
-  ofs.close();
 
   {
     std::ifstream ifs(file);
     if (!ifs.is_open()) return;
 
-    cereal::XMLInputArchive archive(ifs);
+    cereal::JSONInputArchive archive(ifs);
 
     MyType t1;
     MyDATA m1;
-    int someInt;
-    double d;
+    int someInt = 0;
+    double d = 0;
 
     archive(t1, someInt, d);  // NVPs not strictly necessary when loading
     // but could be used (even out of order)
@@ -92,16 +93,15 @@ TEST(CEREAL_XML, read_write_recursive)
     EXPECT_EQ(m1.z, 9.9);
     EXPECT_EQ(someInt, 5);
     EXPECT_EQ(d, 2);
-    ifs.close();
   }
 }
 
-TEST(CEREAL_XML, read_write_pointer)
+TEST(CEREAL_JSON, read_write_pointer)
 {
-  std::string file = "data_ptr.xml";
+  std::string file = "data_ptr.json";
   {
     std::ofstream ofs(file, std::ios::trunc);
-    cereal::XMLOutputArchive archive(ofs);
+    cereal::JSONOutputArchive archive(ofs);
 
     std::shared_ptr<MyPointer> ptr(new MyPointer(1, 2));
 
@@ -112,7 +112,7 @@ TEST(CEREAL_XML, read_write_pointer)
     std::ifstream ifs(file);
     if (!ifs.is_open()) return;
 
-    cereal::XMLInputArchive archive(ifs);
+    cereal::JSONInputArchive archive(ifs);
 
     std::shared_ptr<MyPointer> ptr;
     archive(ptr);
@@ -122,10 +122,10 @@ TEST(CEREAL_XML, read_write_pointer)
   }
 }
 
-TEST(CEREAL_XML, write_type)
+TEST(CEREAL_JSON, write_type)
 {
   std::vector<std::vector<MyType>> vec;
-  
+
   for (int i = 0; i < 10; i++) {
     MyType tmp;
     tmp.length = 1.0 * i;
@@ -135,26 +135,26 @@ TEST(CEREAL_XML, write_type)
     tmp.data.z = i * 3;
     vec.push_back({tmp, tmp, tmp});
   }
-  
-  std::string file = "tmp.xml";
-  
+
+  std::string file = "tmp.json";
+
   {
     std::ofstream ofs(file, std::ios::trunc);
-    cereal::XMLOutputArchive archive(ofs);
+    cereal::JSONOutputArchive archive(ofs);
     for (int i = 0; i < vec.size(); i++) {
-      archive(vec[i]);
+      archive(cereal::make_nvp(std::to_string(i), vec[i]));
     }
   }
 }
 
-TEST(CEREAL_XML, read_type)
+TEST(CEREAL_JSON, read_type)
 {
   std::vector<std::vector<MyType>> vec;
-  std::string file = "tmp.xml";
-  
+  std::string file = "tmp.json";
+
   {
     std::ifstream ifs(file);
-    cereal::XMLInputArchive archive(ifs);
+    cereal::JSONInputArchive archive(ifs);
     for (int i = 0; i < 10; i++) {
       std::vector<MyType> tmp;
       std::cout<<archive.getNodeName()<<"\t";

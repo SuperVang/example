@@ -9,7 +9,7 @@
 
 namespace AA{
 	class A;
-	
+
 	class B{
 	public:
 		B()=default;

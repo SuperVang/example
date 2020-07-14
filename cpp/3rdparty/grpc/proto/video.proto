@@ -17,5 +17,7 @@ message VideoResponse {
 }
 
 service VideoService {
-    rpc Foo(VideoRequest) returns(stream VideoResponse);
+    rpc StreamOut(VideoRequest) returns(stream VideoResponse);
+    rpc StreamIn(stream VideoRequest) returns(VideoResponse);
+    rpc StreamInOut(stream VideoRequest) returns(stream VideoResponse);
 }

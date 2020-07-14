@@ -1,5 +1,8 @@
 syntax="proto3";
 
+import "google/api/annotations.proto";
+import "google/protobuf/empty.proto";
+
 option cc_generic_services = false;
 
 message FooRequest {
@@ -13,5 +16,9 @@ message FooResponse {
 }
 
 service EchoService {
-    rpc Foo(FooRequest) returns(FooResponse);
+    rpc Foo(FooRequest) returns(FooResponse){
+        option (google.api.http) = {
+            get: "/tests/state/{text}"
+        };
+    };
 }
