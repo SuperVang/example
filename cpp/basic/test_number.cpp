@@ -1,9 +1,12 @@
 #include <iostream>
 #include <numeric>
+#include <cfloat>
 
 #include <gtest/gtest.h>
 
 TEST(CPP_NUMBER, max_number) {
+  
+    std::cout<<std::setiosflags(std::ios::fixed);
     std::cout << "Max (uint8_t) = " << std::numeric_limits<uint8_t>::max()
               << std::endl;
     std::cout << "Max (int8_t) = " << std::numeric_limits<int8_t>::max()
@@ -22,7 +25,7 @@ TEST(CPP_NUMBER, max_number) {
               << std::endl;
     std::cout << "Max (float) = " << std::numeric_limits<float>::max()
               << std::endl;
-    std::cout << "Max (double) = " << std::numeric_limits<double>::min()
+    std::cout << "Max (double) = " << std::numeric_limits<double>::max()
               << std::endl;
 }
 
@@ -50,6 +53,7 @@ TEST(CPP_NUMBER, inf_number) {
 }
 
 TEST(CPP_NUMBER, eps_number) {
+  std::cout<<std::setiosflags(std::ios::fixed)<<std::setprecision(20);
     std::cout << "Epsilon (uint8_t) = "
               << std::numeric_limits<uint8_t>::epsilon() << std::endl;
     std::cout << "Epsilon (int8_t) = "

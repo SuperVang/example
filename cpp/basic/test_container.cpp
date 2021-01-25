@@ -1,14 +1,14 @@
-#include <iostream>
-#include <vector>
-#include <map>
-#include <set>
-#include <tuple>
-#include <string>
-#include <list>
 #include <chrono>
 #include <deque>
+#include <iostream>
+#include <list>
+#include <map>
 #include <queue>
+#include <set>
 #include <stack>
+#include <string>
+#include <tuple>
+#include <vector>
 
 #include <gtest/gtest.h>
 
@@ -18,8 +18,7 @@ TEST(CPP_CONTAINER, vector_key_map)
     for (int i = 0; i < 10; i++)
     {
         std::vector<int> tmpKey;
-        for (int j = i; j < 10; j++)
-            tmpKey.push_back(j);
+        for (int j = i; j < 10; j++) tmpKey.push_back(j);
         nodeMaps[tmpKey] = std::vector<int>(i, 0);
     }
 
@@ -57,31 +56,26 @@ TEST(CPP_CONTAINER, pointer_value_map)
 TEST(CPP_CONTAINER, tuple_key_set)
 {
     std::set<std::tuple<int, int>> sets;
-    for (int i = 0; i < 100; i++)
-        sets.insert(std::make_tuple(i % 10, i % 10));
+    for (int i = 0; i < 100; i++) sets.insert(std::make_tuple(i % 10, i % 10));
     EXPECT_EQ(10, sets.size());
-    for (const std::tuple<int, int> &t : sets)
-        EXPECT_EQ(std::get<0>(t), std::get<1>(t));
+    for (const std::tuple<int, int> &t : sets) EXPECT_EQ(std::get<0>(t), std::get<1>(t));
 }
 
 TEST(CPP_CONTAINER, vector_assign_from_set)
 {
     std::set<std::tuple<int, int>> sets;
-    for (int i = 0; i < 100; i++)
-        sets.insert(std::make_tuple(i % 10, i % 10));
+    for (int i = 0; i < 100; i++) sets.insert(std::make_tuple(i % 10, i % 10));
 
     std::vector<std::tuple<int, int>> vec;
     vec.assign(sets.begin(), sets.end());
     EXPECT_EQ(10, vec.size());
-    for (const std::tuple<int, int> &t : vec)
-        EXPECT_EQ(std::get<0>(t), std::get<1>(t));
+    for (const std::tuple<int, int> &t : vec) EXPECT_EQ(std::get<0>(t), std::get<1>(t));
 }
 
 TEST(CPP_CONTAINER, set_insert_from_vector)
 {
     std::vector<int> vec;
-    for (int i = 0; i < 100; i++)
-        vec.push_back(i % 10);
+    for (int i = 0; i < 100; i++) vec.push_back(i % 10);
 
     std::set<int> sets;
     sets.insert(vec.begin(), vec.end());
@@ -113,8 +107,7 @@ TEST(CPP_STRING, endl_char)
 
 TEST(CPP_STRING, find_first_of)
 {
-    std::vector<std::string> vec = {"0008--B008--1--1566974281665", "0024--B024--1--1566974281669",
-                                    "0028--B028--1--1566974281670"};
+    std::vector<std::string> vec = {"0008--B008--1--1566974281665", "0024--B024--1--1566974281669", "0028--B028--1--1566974281670"};
 
     for (std::string str : vec)
     {
@@ -141,13 +134,9 @@ TEST(CPP_CONTAINER, list_erase)
     class T
     {
     public:
-        T()
-        {}
+        T() {}
 
-        ~T()
-        {
-            printf("T Has Been Destruct!\n");
-        }
+        ~T() { printf("T Has Been Destruct!\n"); }
     };
 
     std::list<T *> list;
@@ -155,20 +144,18 @@ TEST(CPP_CONTAINER, list_erase)
     T *tmp = list.front();
     list.erase(list.begin());
     EXPECT_TRUE(list.empty());
-    std::cout<<"List Is Empty"<<std::endl;
+    std::cout << "List Is Empty" << std::endl;
     delete tmp;
 }
 
 TEST(CPP_CONTAINER, set_to_vector)
 {
     std::set<int> s;
-    for (int i = 0; i < 5; i++)
-        s.insert(i);
+    for (int i = 0; i < 5; i++) s.insert(i);
     std::vector<int> vec;
     vec.assign(s.begin(), s.end());
     EXPECT_EQ(s.size(), vec.size());
-    for (const int val : vec)
-        EXPECT_TRUE(s.find(val) != s.end());
+    for (const int val : vec) EXPECT_TRUE(s.find(val) != s.end());
 }
 
 TEST(CPP_CONTAINER, vector_erase)
@@ -183,19 +170,16 @@ TEST(CPP_CONTAINER, vector_erase)
 
     EXPECT_EQ(9, vec.size());
     EXPECT_EQ(8, vec.back());
-
 }
-
 
 TEST(CPP_CONTAINER, count_on_tuple)
 {
     std::set<std::tuple<int, int>> set;
     for (int i = 0; i < 1000; i++)
     {
-//        map[std::tuple<int, int>(i, i)] = i * 32.4;
+        //        map[std::tuple<int, int>(i, i)] = i * 32.4;
         set.insert(std::make_tuple(i, i));
     }
-
 
     std::chrono::steady_clock::time_point tp1 = std::chrono::steady_clock::now();
     for (int i = 0; i < 1000; i++)
@@ -248,8 +232,24 @@ TEST(CPP_CONTAINER, stack_recursive)
     {
         Cond tmp = where.top();
         where.pop();
-
     }
+}
 
+TEST(CPP_CONTAINER, map_erase)
+{
+    std::map<std::tuple<char, char>, int> mymap;
+    std::map<std::tuple<char, char>, int>::iterator it;
 
+    // insert some values:
+    mymap[{'a', 'a'}] = 10;
+    mymap[{'b', 'b'}] = 20;
+    mymap.erase({'a', 'z'});
+    mymap.erase({'a', 'a'});
+
+    //    it=mymap.find('z');
+    //    mymap.erase (it);                   // erasing by iterator
+
+    // show content:
+    for (it = mymap.begin(); it != mymap.end(); ++it)
+        std::cout << std::get<0>(it->first) << " => " << it->second << '\n';
 }

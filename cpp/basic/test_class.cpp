@@ -154,3 +154,26 @@ TEST(CPP_CLASS, private_virtual)
     Base *b = new A();
     EXPECT_EQ(1, b->print());
 }
+
+TEST(CPP_CLASS, pure_virtual_and_normal)
+{
+  class A
+  {
+   public:
+    void print() { print(2); }
+    
+    void const_print() {  }
+
+    virtual void print(int x) = 0;
+  };
+
+  class B : public A
+  {
+   public:
+    void print(int x) override { std::cout << 10 << std::endl; }
+  };
+
+  B b;
+//  b.print(); /// error: can not find match function
+  b.A::print();
+}
